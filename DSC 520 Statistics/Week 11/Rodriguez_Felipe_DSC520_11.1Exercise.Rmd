@@ -1,0 +1,215 @@
+---
+title: "Machine Learning"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# In this problem, you will use the nearest neighbors algorithm to fit a model on two simplified datasets. The first dataset (found in binary-classifier-data.csv) contains three variables; label, x, and y. The label variable is either 0 or 1 and is the output we want to predict using the x and y variables (You worked with this dataset last week!). The second dataset (found in trinary-classifier-data.csv) is similar to the first dataset except that the label variable can be 0, 1, or 2.
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/Github/dsc520/data/")
+binary <- read.csv("binary-classifier-data.csv")
+trinary <- read.csv("trinary-classifier-data.csv")
+```
+
+## Plot the data from each dataset using a scatter plot.
+```{r}
+# Binary Data Scatter Plot
+library(ggplot2)
+ggplot(binary, aes(x = x, y = y)) + geom_point()
+```
+
+```{r}
+# Trinary Data Scatter Plot
+ggplot(trinary, aes(x = x, y = y)) + geom_point()
+```
+
+
+## The k nearest neighbors algorithm categorizes an input value by looking at the labels for the k nearest points and assigning a category based on the most common label. In this problem, you will determine which points are nearest by calculating the Euclidean distance between two points. As a refresher, the Euclidean distance between two points:
+
+
+
+## Fitting a model is when you use the input data to create a predictive model. There are various metrics you can use to determine how well your model fits the data. For this problem, you will focus on a single metric, accuracy. Accuracy is simply the percentage of how often the model predicts the correct result. If the model always predicts the correct result, it is 100% accurate. If the model always predicts the incorrect result, it is 0% accurate.
+
+## Fit a k nearest neighbors’ model for each dataset for k=3, k=5, k=10, k=15, k=20, and k=25. Compute the accuracy of the resulting models for each value of k. Plot the results in a graph where the x-axis is the different values of k and the y-axis is the accuracy of the model.
+
+### Binary
+
+```{r}
+#Normalization
+normalize <- function(x) 
+{return ((x - min(x)) / (max(x) - min(x)))}
+binary.n <- as.data.frame(lapply(binary[,2:3], normalize))
+
+set.seed(123)
+binary.d <- sample(1:nrow(binary.n),size=nrow(binary.n)*0.7,replace = FALSE) #random selection of 70% data.
+ 
+train.binary <- binary.n[binary.d,] # 70% training data
+test.binary <- binary.n[-binary.d,] # remaining 30% test data
+
+
+#Creating seperate dataframe for 'Label feature which is our target.
+train.binary_labels <- binary[binary.d,1]
+test.binary_labels <-binary[-binary.d,1]
+
+library(class)
+NROW(train.binary_labels)
+
+knn.3 <- knn(train=train.binary, test=test.binary, cl=train.binary_labels, k=3)
+knn.5 <- knn(train=train.binary, test=test.binary, cl=train.binary_labels, k=5)
+knn.10 <- knn(train=train.binary, test=test.binary, cl=train.binary_labels, k=10)
+knn.15 <- knn(train=train.binary, test=test.binary, cl=train.binary_labels, k=15)
+knn.20 <- knn(train=train.binary, test=test.binary, cl=train.binary_labels, k=20)
+knn.25 <- knn(train=train.binary, test=test.binary, cl=train.binary_labels, k=25)
+
+```
+
+```{r}
+ACC.3 <- 100 * sum(test.binary_labels == knn.3)/NROW(test.binary_labels)
+ACC.5 <- 100 * sum(test.binary_labels == knn.5)/NROW(test.binary_labels)
+ACC.10 <- 100 * sum(test.binary_labels == knn.10)/NROW(test.binary_labels)
+ACC.15 <- 100 * sum(test.binary_labels == knn.15)/NROW(test.binary_labels)
+ACC.20 <- 100 * sum(test.binary_labels == knn.20)/NROW(test.binary_labels)
+ACC.25 <- 100 * sum(test.binary_labels == knn.25)/NROW(test.binary_labels)
+
+ACC.3
+ACC.5
+ACC.10
+ACC.15
+ACC.20
+ACC.25
+```
+```{r}
+accurary = c(ACC.3,
+ACC.5,
+ACC.10,
+ACC.15,
+ACC.20,
+ACC.25)
+k_value =c(3, 5, 10, 15, 20, 25)
+data <- data.frame(k_value, accurary)
+plot(data, type="b", xlab="K-Value", ylab="Accuracy", xlim=c(0,25))
+```
+
+### Trinary 
+```{r}
+#Normalization
+normalize <- function(x) 
+{return ((x - min(x)) / (max(x) - min(x)))}
+trinary.n <- as.data.frame(lapply(trinary[,2:3], normalize))
+
+set.seed(123)
+trinary.d <- sample(1:nrow(trinary.n),size=nrow(trinary.n)*0.7,replace = FALSE) #random selection of 70% data.
+ 
+train.trinary <- trinary.n[trinary.d,] # 70% training data
+test.trinary <- trinary.n[-trinary.d,] # remaining 30% test data
+
+
+#Creating seperate dataframe for 'Label feature which is our target.
+train.trinary_labels <- trinary[trinary.d,1]
+test.trinary_labels <-trinary[-trinary.d,1]
+
+library(class)
+NROW(train.trinary_labels)
+
+knn.3 <- knn(train=train.trinary, test=test.trinary, cl=train.trinary_labels, k=3)
+knn.5 <- knn(train=train.trinary, test=test.trinary, cl=train.trinary_labels, k=5)
+knn.10 <- knn(train=train.trinary, test=test.trinary, cl=train.trinary_labels, k=10)
+knn.15 <- knn(train=train.trinary, test=test.trinary, cl=train.trinary_labels, k=15)
+knn.20 <- knn(train=train.trinary, test=test.trinary, cl=train.trinary_labels, k=20)
+knn.25 <- knn(train=train.trinary, test=test.trinary, cl=train.trinary_labels, k=25)
+```
+
+```{r}
+trinary.ACC.3 <- 100 * sum(test.trinary_labels == knn.3)/NROW(test.trinary_labels)
+trinary.ACC.5 <- 100 * sum(test.trinary_labels == knn.5)/NROW(test.trinary_labels)
+trinary.ACC.10 <- 100 * sum(test.trinary_labels == knn.10)/NROW(test.trinary_labels)
+trinary.ACC.15 <- 100 * sum(test.trinary_labels == knn.15)/NROW(test.trinary_labels)
+trinary.ACC.20 <- 100 * sum(test.trinary_labels == knn.20)/NROW(test.trinary_labels)
+trinary.ACC.25 <- 100 * sum(test.trinary_labels == knn.25)/NROW(test.trinary_labels)
+
+trinary.ACC.3
+trinary.ACC.5
+trinary.ACC.10
+trinary.ACC.15
+trinary.ACC.20
+trinary.ACC.25
+```
+```{r}
+accurary = c(trinary.ACC.3,
+trinary.ACC.5,
+trinary.ACC.10,
+trinary.ACC.15,
+trinary.ACC.20,
+trinary.ACC.25)
+k_value =c(3, 5, 10, 15, 20, 25)
+data <- data.frame(k_value, accurary)
+plot(data, type="b", xlab="K-Value", ylab="Accuracy", xlim=c(0,25))
+```
+
+## Looking back at the plots of the data, do you think a linear classifier would work well on these datasets?
+
+I do not believe a linear classifier would work well on the scatter plots of the two data sets. Although the data sets only have 2 and 3 labels, the clusters that are formed in each plot have too many clusters to be only categorized into two classes. 
+
+## How does the accuracy of your logistic regression classifier from last week compare?  Why is the accuracy different between these two methods?
+
+The accuracy for KNN is higher than logistical regression last week. If the target label has no linear correlation with the features, the model will be less accurate. This data seems to be non-linear so KNN fits better against this data.
+
+# In this problem, you will use the k-means clustering algorithm to look for patterns in an unlabeled dataset. The dataset for this problem is found at data/clustering-data.csv.
+
+## Plot the dataset using a scatter plot.
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/Github/dsc520/data/")
+data_cluster <- read.csv("clustering-data.csv")
+library(ggplot2)
+ggplot(data_cluster, aes(x = x, y = y)) + geom_point()
+```
+
+## Fit the dataset using the k-means algorithm from k=2 to k=12. Create a scatter plot of the resultant clusters for each value of k.
+
+### K=2
+```{r}
+data_cluster_k2 <- kmeans(x=data_cluster, centers = 2)
+data_cluster_k2
+```
+```{r}
+library(useful)
+plot(data_cluster_k2, data=data_cluster)
+```
+### K=12
+```{r}
+data_cluster_k12 <- kmeans(x=data_cluster, centers = 12)
+data_cluster_k12
+```
+
+```{r}
+library(useful)
+plot(data_cluster_k12, data=data_cluster)
+```
+## Calculate this average distance from the center of each cluster for each value of k and plot it as a line chart where k is the x-axis and the average distance is the y-axis.
+
+```{r}
+set.seed(123)
+library(purrr)
+k.values <- 1:15
+wws <- function(k){
+  kmeans(data_cluster, k, nstart = 10)$tot.withinss/NROW(data_cluster) 
+}
+wws.values <- map_dbl(k.values, wws)
+plot(k.values, wws.values, type="b", pch=19, frame=FALSE, xlab="Number of Clusters", ylab="Distance (Sum of squares/NROW)", xlim=c(1, 15))
+```
+
+## One way of determining the “right” number of clusters is to look at the graph of k versus average distance and finding the “elbow point”. Looking at the graph you generated in the previous example, what is the elbow point for this dataset?
+
+```{r}
+set.seed(123)
+library(factoextra)
+fviz_nbclust(data_cluster, kmeans, method = "wss")
+```
+
+## The elbow point for this data set is k = 4.

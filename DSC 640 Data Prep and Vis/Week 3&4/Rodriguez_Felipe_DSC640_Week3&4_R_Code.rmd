@@ -1,0 +1,31 @@
+---
+title: "Week 1 & 2"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/DSC 640 Data Prep and Vis/Week 3&4")
+data <- readxl::read_excel("world-population.xlsm")
+```
+
+# Plot the data from each dataset using a scatter plot.
+```{r}
+# Line Chart
+library(ggplot2)
+ggplot(data=data, aes(x = Year, y =`Population`)) + geom_line(color="blue") + ggtitle("Line Chart - R")
+```
+
+```{r}
+# Step Chart
+library(ggplot2)
+ggplot(data=data, aes(x = Year, y =`Population`)) + geom_step(color="blue") + ggtitle("Step Chart - R")
+```
+
+

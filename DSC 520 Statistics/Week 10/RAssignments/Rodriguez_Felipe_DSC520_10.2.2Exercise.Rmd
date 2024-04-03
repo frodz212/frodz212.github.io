@@ -1,0 +1,32 @@
+---
+title: "10.2.2 Exercise"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd('/Users/feliperodriguez/Library/CloudStorage/OneDrive-BellevueUniversity/Github/dsc520//data/')
+binary_data <- read.csv('binary-classifier-data.csv')
+```
+
+## Fit a logistic regression model to the binary-classifier-data.csv dataset
+```{r}
+label_glm <- glm(label~., data=binary_data, family = binomial(link = "logit"))
+summary(label_glm)
+```
+```{r}
+response_label_glm <- predict(label_glm, type='response')
+label_prediction <- table(Actual_Value = binary_data$label, Predicted_Value = response_label_glm > .5)
+label_prediction
+```
+## What is the accuracy of the logistic regression classifier?
+```{r}
+label_accuracy <- ((label_prediction[[1,1]] + label_prediction[[2,2]]) / sum(label_prediction))
+label_accuracy
+```
+

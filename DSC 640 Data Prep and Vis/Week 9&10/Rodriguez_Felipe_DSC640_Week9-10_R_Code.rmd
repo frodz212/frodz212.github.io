@@ -1,0 +1,43 @@
+---
+title: "Week 9 & 10"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen=999)
+```
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/DSC 640 Data Prep and Vis/Week 9&10")
+data <- read.csv("ppg2008.csv")
+```
+
+# Plot the data from each dataset using a heat map.
+
+```{r}
+# Heatmap
+cor_matrix <- cor(data[sapply(data, is.numeric)])
+heatmap(cor_matrix)
+
+```
+
+```{r echo=TRUE, results='hide'}
+# Spatial Map
+library(mapview) 
+df <- read.csv('costcos-geocoded.csv')
+mapview(df, xcol = "Longitude", ycol = "Latitude", crs = 4269, grid = FALSE)
+
+```
+
+```{r}
+# Lollipop Plot
+library(ggplot2)
+
+ggplot(data, aes(x=Name, y=G)) +
+  geom_point() + 
+  geom_segment( aes(x=Name, xend=Name, y=0, yend=G)) +
+  scale_x_discrete(guide = guide_axis(angle = 90))
+```

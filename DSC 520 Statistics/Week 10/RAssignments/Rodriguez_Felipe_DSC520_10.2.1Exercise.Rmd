@@ -1,0 +1,43 @@
+---
+title: "10.2.1 Exercise"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+options(scipen=999)
+```
+
+```{r}
+library(foreign)
+setwd('/Users/feliperodriguez/Library/CloudStorage/OneDrive-BellevueUniversity/Github/dsc520//data/')
+surgery_data <- read.arff('ThoraricSurgery.arff')
+```
+
+## Fit a binary logistic regression model to the data set that predicts whether or not the patient survived for one year (the Risk1Y variable) after the surgery. Use the glm() function to perform the logistic regression. See Generalized Linear Models for an example. Include a summary using the summary() function in your results.
+```{r}
+
+risk1yr_glm <- glm(Risk1Yr~., data=surgery_data, family=binomial)
+summary(risk1yr_glm)
+```
+## According to the summary, which variables had the greatest effect on the survival rate?
+
+In order to identify which variables have the greatest effect on survival rate we look at the Significance codes at the bottom of the summary. Any value that has an asterisk can be considered a variable that has an affect on survival rate since their P-Value is less than .05. The values identified, from greatest to least are: PRE140C14, PRE9T, PRE17T, and PRE30T.
+
+## Predict the Accuracy of your moodel
+
+```{r}
+response_glm <- predict(risk1yr_glm, type = "response")
+prediction <- table(Actual_Value = surgery_data$Risk1Yr, Predicted_Value = response_glm > .5)
+prediction
+```
+```{r}
+accuracy_risk1yr <- ((prediction[[1,1]] + prediction[[2,2]]) / sum(prediction))
+accuracy_risk1yr
+```
+

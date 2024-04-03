@@ -1,0 +1,38 @@
+---
+title: "Week 7 & 8"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen=999)
+```
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/DSC 640 Data Prep and Vis/Week 7&8")
+data <- read.csv("crimerates-by-state-2005.csv")
+```
+
+# Plot the data from each dataset using a scatter plot.
+
+```{r}
+# Scatter Plot
+library(ggplot2)
+
+ggplot(data, aes(x= burglary, y=murder)) + geom_point() + ggtitle("Scatter Plot R")
+```
+
+```{r}
+# Bubble Plot
+library(ggplot2)
+ggplot(data, aes(x= burglary, y=murder, size=population)) + geom_point() + ggtitle("Bubble Chart R")
+```
+
+```{r}
+# Step Chart
+library(ggplot2)
+ggplot(data, aes(x=burglary)) + geom_density(fill="black") + ggtitle("Density Plot R")
+
+```
