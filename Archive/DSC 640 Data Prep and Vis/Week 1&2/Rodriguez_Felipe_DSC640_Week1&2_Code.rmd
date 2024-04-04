@@ -1,0 +1,58 @@
+---
+title: "Week 1 & 2"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/DSC 640 Data Prep and Vis/Week1&2")
+data <- readxl::read_excel("hotdog-contest-winners.xlsm")
+```
+
+# Plot the data from each dataset using a scatter plot.
+```{r}
+# Bar Chart
+library(plotly)
+fig <- plot_ly(data, x = ~Year, y = ~`Dogs eaten`, type = 'bar', color = I("blue"))
+fig <- fig %>% layout(title = 'Bar Chart - R',
+                      xaxis = list(title = "Year"),
+                      yaxis = list(title = "Count"))
+fig
+```
+```{r}
+# Stacked Bar Chart
+fig2 <- plot_ly(data, x = ~Year, y = ~`Dogs eaten`, type = 'bar', name = 'Dogs eaten')
+fig2 <- fig2 %>% add_trace(y = ~`New record`, name = 'New record')
+fig2 <- fig2 %>% layout(title = 'Stacked Bar Chart - R', 
+                        yaxis = list(title = 'Count'), 
+                        barmode = 'stack')
+
+fig2
+```
+
+```{r}
+# Bar Chart
+library(plotly)
+fig3 <- plot_ly(data, labels = ~Country, values = ~`Dogs eaten`, type = 'pie')
+fig3 <- fig3 %>% layout(title = 'Pie Chart - R')
+fig3
+```
+```{r}
+library(plotly)
+data2 <- data %>% group_by(Country)
+data2 <- data2 %>% summarize(count = n())
+fig3 <- data2 %>% plot_ly(labels = ~Country, values = ~count)
+fig3 <- fig3 %>% add_pie(hole = 0.6)
+fig3 <- fig3 %>% layout(title = "Donut Chart - R",  
+                        showlegend = T)
+
+fig3
+
+```
+

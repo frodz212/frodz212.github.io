@@ -1,0 +1,41 @@
+---
+title: "Week 5 & 6"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/DSC 640 Data Prep and Vis/Week 5&6")
+data <- read.csv("us_retail_sales.csv")
+```
+
+# Plot the data from each dataset using a scatter plot.
+```{r}
+# Line Chart
+library(ggplot2)
+
+ggplot(data, aes(x= YEAR, y=JAN)) + geom_area() + ggtitle("Area Chart R")
+```
+
+```{r}
+# Step Chart
+library(ggplot2)
+df <- read.csv("unemployement-rate-1948-2010.csv")
+ggplot(df, aes(x = Year, y =Value, fill=Period)) + geom_area()+ ggtitle("Stacked Area Chart R")
+```
+
+```{r}
+# Step Chart
+library(treemap)
+treemap(df,
+            index=c("Year"),
+            vSize="Value",
+            title="Treemap R"
+            ) 
+```

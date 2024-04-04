@@ -1,0 +1,86 @@
+---
+title: "7.2 Exercise"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+```
+
+## Use R to calculate the covariance of the Survey variables and provide an explanation of why you would use this calculation and what the results indicate
+
+```{r}
+setwd("/Users/feliperodriguez/Library/CloudStorage/OneDrive-BellevueUniversity/Github/dsc520/")
+student_survey <- read.csv("data/student-survey.csv")
+```
+
+### Covariance 
+```{r}
+cov(student_survey)
+```
+Covariance is a measure of the relationship of two variables. When two value trend to be high at the same time, the value is higher. This calculation can be used to see the trends of two values and see how they relate. For example, we can see that happiness and TV Time tend to be low versus happiness and Time Reading. This study can give a quick glance of the trends of the variables. 
+
+
+## Examine the Survey data variables. What measurement is being used for the variables? Explain what effect changing the measurement being used for the variables would have on the covariance calculation. Would this be a problem? Explain and provide a better alternative if needed.
+
+```{r}
+head(student_survey)
+```
+The measurements used are undefined which can create an inconsistency when analyzing covariance. Time reading has a measure of digits less than 5 and Time TV has mesaurements above 70. This gives an indication that Time Reading might be measure in hours as opposed to Time TV might be measured in minutes. 
+
+If the values are changed to a consistent measurement, the covariance analysis would be able to yield better results. A better alternative to be to use a consistent form of time amongst the fields Time Reading and Time TV. This will give a clearer output on covariance. 
+
+
+## Choose the type of correlation test to perform, explain why you chose this test, and make a prediction if the test yields a positive or negative correlation?
+
+I am going to be performing a test on happiness and TV Time. I think this test will yield some interesting results since a lot of students spend time watching TV. My prediction is that this test will yield a positive correlation. 
+
+## Perform a correlation analysis of:
+
+### All variables
+```{r}
+cor(student_survey)
+```
+
+### A single correlation between two a pair of the variables
+```{r}
+cor.test(student_survey$TimeTV, student_survey$Happiness)
+```
+
+### Repeat your correlation test in step 2 but set the confidence interval at 99%
+
+```{r}
+cor.test(student_survey$TimeTV,student_survey$Happiness,method="pearson",conf.level = 0.99 )
+```
+### Describe what the calculations in the correlation matrix suggest about the relationship between the variables. Be specific with your explanation.
+
+This calculation is using the Pearson method. The confidence level is set at 99% and the bottom and top levels are -.1570212 and .9306275. With this, it can be assumed that the correlation between TV Time and Happiness will fall between those two values. The correlation found is .636556 which falls within the confidence level. The correlation of the two variables is high which gives us the indication that there is a positive correlation between Happiness and TV Time. 
+
+## Calculate the correlation coefficient and the coefficient of determination, describe what you conclude about the results.
+
+### Correlation Coefficient
+```{r}
+cor(student_survey)
+```
+
+
+### Coefficient of Determination
+```{r}
+student_survey.lm <- lm(data=student_survey)
+summary(student_survey.lm)$r.squared
+```
+
+These results show us that there is a strong trend amongst the variables.
+
+## Based on your analysis can you say that watching more TV caused students to read less? Explain.
+
+With the given data, yes that appears to be the trend. However, the measures used make it difficult to give a reliable analysis. They are not consistent measures and these can cause some inconsistencies in the data. 
+
+## Pick three variables and perform a partial correlation, documenting which variable you are “controlling”. Explain how this changes your interpretation and explanation of the results.
+
+```{r}
+library(ppcor)
+pcor.test(student_survey$TimeReading, student_survey$TimeTV, student_survey$Happiness)
+```
+This changes the interpretation because the estimate is low. This value is the partial correlation between the variables. With this value being low, it means that the degree of association between two random variables have a weak relationship. 
