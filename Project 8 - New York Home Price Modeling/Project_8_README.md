@@ -30,8 +30,11 @@ Data Dictionary
 # Data Transformations 
 
 Nulls droped for modeling
+
 Latitude and Longitude added from nomi
+
 NY Subset created for modeling
+
   Subset 1 includes zip code and prices 
   Subset 2 includes all numeric fields in data
 
