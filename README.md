@@ -5,7 +5,7 @@
 This repo contains details and information of the projects completed by Felipe Rodriguez
 
 
-## [Project 1 - Weather Data Script](https://github.com/frodz212/frodz212.github.io/tree/71854b3883dee0fbae78ca36fd7924ce3f079f65/Project%201%20-%20Weather%20Data%20Scipt) 
+## [Project 1 - Weather Data Script](https://github.com/frodz212/frodz212.github.io/tree/6b557aec43ec2e07a97b3811f399e1264a544fd4/Project%201%20-%20Weather%20Data%20Scipt) 
 
 This project is a user driver script that will give current weather forecast from a web API based on a Zip code, City, or State that is input by the user. 
 
@@ -33,7 +33,7 @@ This project reviews the methods used in a case study that identifies students a
 
 This project was conducted with a colleague to understand products that are profitable and create a time series analysis to predict how sales would perform in the future. 
 
-## [Project 8 - New York Home Price Modeling](https://github.com/frodz212/frodz212.github.io/tree/ea0be6c7465fabb37fc109662e6eec95da1d3cc6/Project%208%20-%20New%20York%20Home%20Price%20Modeling)
+## [Project 8 - New York Home Price Modeling](https://github.com/frodz212/frodz212.github.io/tree/6b557aec43ec2e07a97b3811f399e1264a544fd4/Project%208%20-%20New%20York%20Home%20Price%20Modeling)
 
 This project uses Data Science to predict home prices using various features for the state of New York. The goal is to predict accurate prices so consumers can make well informed decisions when selling their homes. 
 
