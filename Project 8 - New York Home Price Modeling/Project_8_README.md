@@ -12,7 +12,28 @@ The goal of this project is to find a model that can accurately predict home pri
 
 # Data Dictionary
 
+Data Dictionary
 
+| column         | description                                                              | data_type   |
+|:---------------|:-------------------------------------------------------------------------|:------------|
+| status         | Current standing of the home (for sale or ready to build)                | object      |
+| bed            | Number of beds in the home                                               | float64     |
+| bath           | Number of baths in the home                                              | float64     |
+| acre_lot       | Size of the lot                                                          | float64     |
+| city           | City where the home is located                                           | object      |
+| state          | State where the home is located                                          | object      |
+| zip_code       | Zip code of the home                                                     | float64     |
+| house_size     | Square fottage of the home                                               | float64     |
+| prev_sold_date | Date when the home was previously sold                                   | object      |
+| price          | Current sale price or previously sold price if the house is not for sale | float64     |
+
+# Data Transformations 
+
+Nulls droped for modeling
+Latitude and Longitude added from nomi
+NY Subset created for modeling
+  Subset 1 includes zip code and prices 
+  Subset 2 includes all numeric fields in data
 
 # Project Status
 
