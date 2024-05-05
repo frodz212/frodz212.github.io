@@ -46,4 +46,11 @@ This project creates several ARIMA and SARIMA models to predict weather in Londo
 ## Project 10 - TBD
 
 
+## Contact Me
+
+Email: frodriguez@my365.bellevue.edu'
+
+Linkdin - www.linkedin.com/in/felipe-rodriguez-4427321bb'
+
+
 
