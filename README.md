@@ -39,7 +39,10 @@ This project was conducted with a colleague to understand products that are prof
 
 This project uses Data Science to predict home prices using various features for the state of New York. The goal is to predict accurate prices so consumers can make well informed decisions when selling their homes. 
 
-## Project 9 - TBD
+## [Project 9 - Weather Prediction](https://github.com/frodz212/frodz212.github.io/tree/6bc6b593e1885878af727b8da94412cbeb65a5b9/Project%209%20-%20TBD)
+
+This project creates several ARIMA and SARIMA models to predict weather in London. The goal is to predict weather to aid consumers in planning their events in the future.
+
 ## Project 10 - TBD
 
 
