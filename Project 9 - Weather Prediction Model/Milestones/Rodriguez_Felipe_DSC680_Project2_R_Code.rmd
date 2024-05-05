@@ -1,0 +1,162 @@
+---
+title: "Week 5 & 6"
+author: "Felipe Rodriguez"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+setwd("/Users/feliperodriguez/OneDrive - Bellevue University/Github/frodz212.github.io/Project 9 - TBD/")
+data <- read.csv("london_weather.csv")
+```
+
+# Data Clensing.
+```{r}
+# Convert 'date' column to character type
+data$date <- as.character(data$date)
+
+# Extract year, month, and day from the 'date' column
+data$year <- substr(data$date, 1, 4)
+data$month <- substr(data$date, 5, 6)
+data$day <- substr(data$date, 7, 8)
+```
+
+```{r}
+library(dplyr)
+average_data <- data %>%
+  group_by(year) %>%
+  summarise(avg_mean_temp = mean(mean_temp, na.rm = TRUE),
+            avg_precipitation = mean(precipitation, na.rm = TRUE),
+            avg_snow_depth = mean(snow_depth, na.rm = TRUE))
+```
+
+```{r}
+library(ggplot2)
+library(tidyr)
+# Reshape the data for plotting
+plot_data <- average_data %>%
+  pivot_longer(cols = c(avg_mean_temp, avg_precipitation, avg_snow_depth),
+               names_to = "variable",
+               values_to = "average_value")
+
+# Plot the averages using ggplot2
+ggplot(plot_data, aes(x = year, y = average_value, color = variable, group = variable)) +
+  geom_line(size = 1.5) +
+  labs(title = "Average Weather Data by Year",
+       y = "Average Value",
+       color = "Variable") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+str(data)
+```
+
+```{r}
+# Drop the 'date', 'year', 'month', and 'day' columns
+library(reshape2)
+library(corrplot)
+data_subset <- data[, !(names(data) %in% c('date', 'year', 'month', 'day'))]
+
+# Remove rows with missing values
+data_subset <- na.omit(data_subset)
+
+# Create a correlation matrix
+correlation_matrix <- cor(data_subset)
+
+# Print the correlation matrix
+corrplot(correlation_matrix)
+```
+
+
+```{r}
+# Create distribution plots of the variables in plot_data
+ggplot(data, aes(x = mean_temp)) +
+  geom_density(fill = "blue", alpha = 0.5) +
+  labs(title = "Distribution of Average Mean Temperature")
+```
+
+
+```{r}
+# Create distribution plots of the variables in plot_data
+ggplot(data, aes(x = precipitation)) +
+  geom_density(fill = "green", alpha = 0.5) +
+  labs(title = "Distribution of Average Precipitation")
+```
+
+```{r}
+# Create distribution plots of the variables in plot_data
+ggplot(data, aes(x = snow_depth)) +
+  geom_density(fill = "purple", alpha = 0.5) +
+  labs(title = "Distribution of Average Snow Depth")
+```
+
+
+```{r}
+library(forecast)
+# Train ARIMA models and forecast future values
+arima_model_mean_temp <- auto.arima(average_data$avg_mean_temp)
+forecast_mean_temp <- forecast(arima_model_mean_temp, h = 10)
+
+arima_model_precipitation <- auto.arima(average_data$avg_precipitation)
+forecast_precipitation <- forecast(arima_model_precipitation, h = 10)
+
+arima_model_snow_depth <- auto.arima(average_data$avg_snow_depth)
+forecast_snow_depth <- forecast(arima_model_snow_depth, h = 10)
+
+# Plot the forecasted values
+plot(forecast_mean_temp, main = "Forecasted Mean Temperature")
+plot(forecast_precipitation, main = "Forecasted Precipitation")
+plot(forecast_snow_depth, main = "Forecasted Snow Depth")
+```
+```{r}
+library(forecast)
+# Extract forecasted values from the forecast objects
+forecast_mean_temp_values <- forecast_mean_temp$mean
+forecast_precipitation_values <- forecast_precipitation$mean
+forecast_snow_depth_values <- forecast_snow_depth$mean
+
+# Create a data frame with the forecasted values
+forecast_data <- data.frame(year = rep(2021:2030, 3),
+                            average_value = c(forecast_mean_temp_values, forecast_precipitation_values, forecast_snow_depth_values),
+                            variable = rep(c("avg_mean_temp", "avg_precipitation", "avg_snow_depth"), each = 10))
+
+# Reshape the combined data for plotting
+combined_data <- rbind(plot_data, forecast_data)
+
+# Plot the averages and predictions using ggplot2
+ggplot(combined_data, aes(x = year, y = average_value, color = variable, group = variable)) +
+  geom_line(size = 1.5) +
+  labs(title = "Average Weather Data and Predictions by Year",
+       y = "Value",
+       color = "Variable") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+# Fit a Seasonal ARIMA model for avg_mean_temp
+sarima_model_mean_temp <- auto.arima(average_data$avg_mean_temp, seasonal = TRUE)
+sarima_forecast_mean_temp <- forecast(sarima_model_mean_temp, h = 10)
+
+# Print the forecasted values
+print(forecast_mean_temp)
+
+sarima_model_precipitation <- auto.arima(average_data$avg_precipitation, seasonal = TRUE)
+sarima_forecast_precipitation <- forecast(sarima_model_precipitation, h = 10)
+
+sarima_model_snow_depth <- auto.arima(average_data$avg_snow_depth, seasonal = TRUE)
+sarima_forecast_snow_depth <- forecast(sarima_model_snow_depth, h = 10)
+
+# Plot the forecasted values
+plot(sarima_forecast_mean_temp, main = "Forecasted Mean Temperature")
+plot(sarima_forecast_precipitation, main = "Forecasted Precipitation")
+plot(sarima_forecast_snow_depth, main = "Forecasted Snow Depth")
+```
+
