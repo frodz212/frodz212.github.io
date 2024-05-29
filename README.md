@@ -1,4 +1,4 @@
-# Felipe Rodriguez Portfolio
+# Portfolio
 
 ## About
 
