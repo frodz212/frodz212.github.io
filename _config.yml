@@ -1,3 +1,20 @@
 theme: jekyll-theme-minimal
-title: Felipe's homepage
-description: 'Bookmark this to keep an eye on my project updates!'
+
+title: <p align="center"> Felipe Rodriguez </p>
+
+logo: "site_docs/images/picture-1.png?raw=true"
+
+description:
+  <p align="center">
+  <a href="site_docs/pdf/Resume.pdf">Resume</a> |
+  <a href="www.linkedin.com/in/felipe-rodriguez-4427321bb">LinkedIn</a> |
+  <a href="https://github.com/frodz212">GitHub</a>
+  </p>
+  
+  <p align="justify">
+  I am pursing MS degree in Data Science at Bellevue University.
+  <br><br>
+  I am currently a Senior Quality Analyst Consultant at Allstate.
+  <br><br>
+  </p>
+
