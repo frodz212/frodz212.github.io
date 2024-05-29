@@ -43,14 +43,15 @@ This project uses Data Science to predict home prices using various features for
 
 This project creates several ARIMA and SARIMA models to predict weather in London. The goal is to predict weather to aid consumers in planning their events in the future.
 
-## Project 10 - TBD
+## [Project 10 - Airbnb Sentiment Analysis](https://github.com/frodz212/frodz212.github.io/tree/41e43105419329de40b1431d005d74234a542d5f/Project%2010%20-%20Airbnb%20Sentiment%20Analysis)
 
+This project uses Vader sentiment analysis and Naive Bayes model to analyze Boston Airbnb reviews. The goal is to predict the sentiment of reviews so that this information can help hosts make improvements and users make informed decisions. 
 
 ## Contact Me
 
 Email - frodriguez@my365.bellevue.edu
 
-Linkdin - www.linkedin.com/in/felipe-rodriguez-4427321bb
+Linkdin - https://www.linkedin.com/in/feliperodriguez212/
 
 
 
